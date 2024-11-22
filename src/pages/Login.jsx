@@ -1,14 +1,14 @@
-import React, { useRef, useState } from 'react';
-import { Box, Typography, TextField, Button, Alert } from '@mui/material';
-import { auth } from '../config/firebase/configfirebase.js';
-import { signInWithEmailAndPassword } from 'firebase/auth'; 
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { Box, Typography, TextField, Button, Alert } from "@mui/material";
+import { auth } from "../config/firebase/configfirebase.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const email = useRef();
   const pass = useRef();
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState(''); // For error message display
+  const [errorMessage, setErrorMessage] = useState(""); // For error message display
 
   function loginUser(event) {
     event.preventDefault();
@@ -17,7 +17,7 @@ function Login() {
 
     // Validate if fields are empty
     if (!emailValue || !passwordValue) {
-      setErrorMessage('Please fill out both fields!');
+      setErrorMessage("Please fill out both fields!");
       return;
     }
 
@@ -26,24 +26,41 @@ function Login() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("Logged in", user);
-        navigate('/Todo');
+        navigate("/Todo");
       })
       .catch((error) => {
         const errorMessage = error.message;
-        setErrorMessage('Invalid email or password');
-        console.log(errorMessage);  // Log for debugging
+        setErrorMessage("Invalid email or password");
+        console.log(errorMessage); // Log for debugging
       });
   }
 
   return (
     <>
-      <Box className="bg-danger-subtle" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-        <Box className="d-flex flex-column container justify-content-center gap-5" sx={{ width: '100%', maxWidth: '400px' }}>
-          <Typography variant="h3" color="initial" className='text-center'>Login User</Typography>
-          
+      <Box
+        className="bg-danger-subtle"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        <Box
+          className="d-flex flex-column container justify-content-center gap-5"
+          sx={{ width: "100%", maxWidth: "400px" }}
+        >
+          <Typography variant="h3" color="initial" className="text-center">
+            Login User
+          </Typography>
+
           {/* Display error message */}
-          {errorMessage && <Alert severity="error" sx={{ mb: 2 }}>{errorMessage}</Alert>}
-          
+          {errorMessage && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {errorMessage}
+            </Alert>
+          )}
+
           <form onSubmit={loginUser}>
             <TextField
               id="outlined-basic1"
@@ -63,21 +80,22 @@ function Login() {
               fullWidth
               sx={{ mb: 2 }}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-            >
+            <Button type="submit" variant="contained" color="primary" fullWidth>
               Login
             </Button>
           </form>
 
           <Box className="text-center">
             <Typography variant="subtitle1" color="initial">
-              Doesn't have an account? <span className="text-decoration-underline text-primary" onClick={() => navigate('/register')}> <a href="">Sign Up</a></span>
+              Doesn't have an account?{" "}
+              <span
+                className="text-decoration-underline text-primary"
+                onClick={() => navigate("/register")}
+              >
+                {" "}
+                <Link>Sign Up</Link>
+              </span>
             </Typography>
-            
           </Box>
         </Box>
       </Box>
